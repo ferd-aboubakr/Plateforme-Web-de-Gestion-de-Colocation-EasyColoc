@@ -173,25 +173,38 @@
             <!-- Main Content -->
             <main class="flex-1 p-6">
                 <!-- Flash Messages -->
+                @if(session('invitation_link'))
+                    <div class="bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-xl mb-4">
+                        <div class="font-semibold mb-3 text-lg">Lien d'invitation généré :</div>
+                        <div class="bg-white p-4 rounded-lg border border-green-300">
+                            <input type="text" value="{{ session('invitation_link') }}" readonly 
+                                   class="w-full text-sm font-mono bg-transparent outline-none py-2 px-3" 
+                                   onclick="this.select()">
+                        </div>
+                        <p class="text-sm mt-3">Copiez ce lien et envoyez-le directement à la personne invitée !</p>
+                    </div>
+                    {{ session()->forget('invitation_link') }}
+                @endif
+                
                 @if(session('success'))
                     <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-xl mb-4 flex items-center gap-3">
-                        <span>✅</span>
                         <span>{{ session('success') }}</span>
                     </div>
+                    {{ session()->forget('success') }}
                 @endif
                 
                 @if(session('error'))
                     <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-xl mb-4 flex items-center gap-3">
-                        <span>❌</span>
                         <span>{{ session('error') }}</span>
                     </div>
+                    {{ session()->forget('error') }}
                 @endif
                 
                 @if(session('warning'))
                     <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-xl mb-4 flex items-center gap-2">
-                        <span>⚠️</span>
                         <span class="text-sm">{{ session('warning') }}</span>
                     </div>
+                    {{ session()->forget('warning') }}
                 @endif
                 
                 @if($errors->any())

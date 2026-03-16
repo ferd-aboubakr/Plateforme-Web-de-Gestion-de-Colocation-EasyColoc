@@ -19,15 +19,15 @@
       </div>
     </div>
     
-    <div class="flex gap-2">
+    <div class="flex gap-3">
       @if(auth()->id() === $colocation->owner_id)
-        <a href="#invite" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
-          ✉️ Inviter
+        <a href="#invite" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-sm font-medium">
+          Inviter
         </a>
         <form method="POST" action="{{ route('colocations.cancel', $colocation) }}" class="inline" 
               x-on:click="confirm('Annuler la colocation {{ $colocation->name }} ? Cette action est irréversible !') || $event.preventDefault()">
           @csrf
-          <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm">
+          <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg text-sm font-medium">
             Annuler la coloc
           </button>
         </form>
@@ -35,7 +35,7 @@
         <form method="POST" action="{{ route('colocations.leave', $colocation) }}" class="inline"
               x-on:click="confirm('Voulez-vous vraiment quitter la colocation {{ $colocation->name }} ?') || $event.preventDefault()">
           @csrf
-          <button type="submit" class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg text-sm">
+          <button type="submit" class="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg text-sm font-medium">
             Quitter la colocation
           </button>
         </form>
@@ -330,10 +330,32 @@
             class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
           >
         </div>
-        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg">
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg text-sm">
           Envoyer l'invitation
         </button>
       </form>
+      
+      @if(session('invitation_link'))
+        <div class="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+          <h3 class="font-semibold text-green-800 mb-3 text-lg">Lien d'invitation généré :</h3>
+          <div class="bg-white p-4 rounded-lg border border-green-300">
+            <input type="text" value="{{ session('invitation_link') }}" readonly 
+                   class="w-full text-sm font-mono bg-transparent outline-none py-2 px-3" 
+                   onclick="this.select()">
+          </div>
+          <p class="text-sm text-green-700 mt-3">
+            Copiez ce lien et envoyez-le directement à la personne invitée !
+          </p>
+        </div>
+        {{ session()->forget('invitation_link') }}
+      @endif
+      
+      @if(session('success'))
+        <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <p class="text-blue-800">{{ session('success') }}</p>
+        </div>
+        {{ session()->forget('success') }}
+      @endif
     </section>
   @endif
 </div>

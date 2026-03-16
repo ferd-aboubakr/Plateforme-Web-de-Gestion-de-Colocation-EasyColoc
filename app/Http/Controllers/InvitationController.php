@@ -42,11 +42,14 @@ class InvitationController extends Controller
 
         $invitation->load('colocation.owner');
 
-    // Envoyer l'email
-    Mail::to($request->email)
-        ->send(new InvitationMail($invitation));
+        // Envoyer l'email (commenté pour le moment)
+        // Mail::to($request->email)
+        //     ->send(new InvitationMail($invitation));
 
-    return back()->with('success', 'Invitation envoyée avec succès à ' . $request->email . ' !');
+        $invitationLink = route('invitations.show', $invitation->token);
+
+        return back()->with('success', 'Invitation envoyée avec succès à ' . $request->email . ' !')
+                     ->with('invitation_link', $invitationLink);
     }
 
     public function show(string $token)

@@ -76,8 +76,6 @@ class DashboardController extends Controller
             ->where('colocation_id', $colocation->id)
             ->sum('amount');
 
-        // ✅ FORMULE CORRECTE : paid - share - received + sent
-        // ❌ MAUVAISE formule : paid - share + received - sent  ← ne pas utiliser
         $balance = round($paid - $share - $received + $sent, 2);
 
         $balances[$u->id] = [
@@ -102,7 +100,7 @@ class DashboardController extends Controller
         } elseif ($data['balance'] > 0.01) {
             $creditors[$userId] = $data['balance'];
         }
-        // balance entre -0.01 et +0.01 = considéré comme 0
+        
     }
 
     $settlements = [];
